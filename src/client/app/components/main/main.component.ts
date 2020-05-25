@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild, EventEmitter } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { AuthService } from '../../services/auth/auth.service';
 import { SidebarService } from '../../services/components/sidebar-toggle.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { SidebarService } from '../../services/components/sidebar-toggle.service
 export class MainComponent implements OnInit {
 	@ViewChild('sidebar') sidebar: MatSidenav;
 
-	constructor(private sidebarService: SidebarService) {}
+	constructor(public authService: AuthService, public sidebarService: SidebarService) {}
 
 	ngOnInit(): void {
 		this.sidebarService.toggleSidebar.subscribe(() => this.sidebar.toggle());

@@ -12,5 +12,16 @@ mat-sidenav {
 }
 
 mat-sidenav-content {
+	padding: 1rem 15% 1rem;
+}
+
+@media screen and (max-width: 800px) {
+	mat-sidenav-content {
+		padding: 1rem 5% 1rem;
+	}
+}
+
+.unauthenticated {
+	width: 100%;
 	padding: 1rem;
 }

@@ -1,7 +1,7 @@
 {
-	"name": "nestjs-with-angular",
+	"name": "lists-exchange",
 	"version": "0.0.1",
-	"description": "Basic toolkit for Angular and NestJS development",
+	"description": "Basic lists exchange app",
 	"author": "Ant0nRocket",
 	"engines": {
 		"node": "12.16.1"

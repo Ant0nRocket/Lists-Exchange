@@ -1,6 +1,26 @@
 <mat-sidenav-container>
     <mat-sidenav #sidebar>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, temporibus?
+
+        <div class="unauthenticated" *ngIf="!authService.authToken">
+            <p>
+                <b>Navigation disabled</b>.
+            </p>
+            <p>
+                You are not authenticated user! Please, <button mat-raised-button color="basic" routerLink="auth" (click)="sidebar.toggle()">LOG IN</button>.
+            </p>
+        </div>
+
+        <mat-selection-list [multiple]="false" (click)="sidebar.toggle()" *ngIf="authService.authToken">
+
+            <mat-list-option routerLink="lists">
+                Lists
+            </mat-list-option>
+
+            <mat-list-option routerLink="contacts">
+                Contacts
+            </mat-list-option>
+
+        </mat-selection-list>
     </mat-sidenav>
 
     <mat-sidenav-content>

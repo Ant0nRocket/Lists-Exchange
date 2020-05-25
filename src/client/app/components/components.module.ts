@@ -13,12 +13,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main/main.component';
 import { FooterComponent } from './footer/footer.component';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { AuthComponent } from './main/auth/auth.component';
+import { ListsComponent } from './main/lists/lists.component';
+import { ContactsComponent } from './main/contacts/contacts.component';
 
 @NgModule({
 	declarations: [
@@ -29,7 +32,9 @@ import { AuthComponent } from './main/auth/auth.component';
 
 		// Specific components
 		AuthComponent,
-		WelcomeComponent
+		WelcomeComponent,
+		ListsComponent,
+		ContactsComponent
 	],
 	exports: [ HeaderComponent, FooterComponent, MainComponent ],
 	imports: [
@@ -47,7 +52,8 @@ import { AuthComponent } from './main/auth/auth.component';
 		MatIconModule,
 		MatButtonModule,
 		MatInputModule,
-		MatExpansionModule
+		MatExpansionModule,
+		MatListModule
 	]
 })
 export class ComponentsModule {}
