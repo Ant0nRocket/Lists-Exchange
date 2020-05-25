@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
-import { SignupLoginCredentials } from '../../../services/auth/signup-login-credentials';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { Credentials } from '../../../../../shared/auth/credentials';
 
 @Component({
 	selector: 'app-auth',
@@ -20,7 +20,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 	};
 
 	// Model
-	public credentials: SignupLoginCredentials = new SignupLoginCredentials();
+	public credentials: Credentials = new Credentials();
 
 	// Auth subscribtions
 	private authStateChanged$: Subscription;

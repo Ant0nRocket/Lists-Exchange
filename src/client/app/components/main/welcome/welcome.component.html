@@ -25,7 +25,7 @@
 
 <div *ngIf="authService.authToken">
     <p *ngIf="!hasMessages()">
-        Outstanding, <b>{{ authService.user.username || authService.user.email || authService.user.phone }}</b>!
+        Outstanding, <b>{{ authService.user.getSomeId() }}</b>!
     </p>
     <p *ngIf="!hasMessages()">
         Now you can perform WebSockets test.

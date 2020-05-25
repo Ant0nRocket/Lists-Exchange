@@ -24,7 +24,7 @@
             
             <button mat-raised-button [matMenuTriggerFor]="appMenu">
                 <mat-icon>person</mat-icon>
-                {{ authService.user.username || authService.user.email || authService.user.phone }}
+                {{ authService.user.getSomeId() }}
             </button>
         </div>
     </mat-toolbar-row>

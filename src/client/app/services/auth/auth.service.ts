@@ -5,12 +5,11 @@ import { Subject } from 'rxjs';
 
 import { ServicesModule } from '../services.module';
 
-import { AuthCredentialsDto } from '../../../../shared/auth/auth-credentials.dto';
 import { apiConfig } from '../../../../shared/api.config';
 import { AuthTokenDto } from '../../../../shared/auth/auth-token.dto';
-import { IUserBase } from '../../../../shared/interfaces/user-base.interface';
 import { Router } from '@angular/router';
-import { SignupLoginCredentials } from './signup-login-credentials';
+import { User } from '../../../../shared/users/user';
+import { Credentials } from '../../../../shared/auth/credentials';
 
 @Injectable({
 	providedIn: ServicesModule
@@ -19,7 +18,7 @@ export class AuthService {
 	public onAuthStateChanged$: Subject<boolean> = new Subject();
 	public onAuthError$: Subject<string> = new Subject();
 
-	public user: IUserBase = undefined;
+	public user: User;
 
 	private _authToken: string = null;
 
@@ -31,11 +30,13 @@ export class AuthService {
 		this._authToken = authToken;
 		if (this._authToken) {
 			// success login
-			this.writeUserFromToken(authToken);
+			this.user = new User();
+			Object.assign(this.user, new JwtHelperService().decodeToken(this._authToken));
 			localStorage.setItem('authToken', authToken);
 			this.onAuthStateChanged$.next(true);
 		} else {
 			// failed log-in
+			this.user = null;
 			localStorage.removeItem('authToken');
 			this.onAuthStateChanged$.next(false);
 		}
@@ -45,17 +46,9 @@ export class AuthService {
 		this.authToken = localStorage.getItem('authToken');
 	}
 
-	//------------------------------------------------------------------------
-	/** Decodes token (which is IUserBase from API) and writes in this.user */
-	private writeUserFromToken(authToken: string) {
-		const userFromToken: IUserBase = new JwtHelperService().decodeToken(authToken);
-		const { _id, email, phone, username } = userFromToken;
-		this.user = { _id, email, phone, username };
-	}
-
 	//----------------------------------------------------------------
 	/** Sends auth credentials to server and subscribes to response */
-	public signUp(authCredentials: SignupLoginCredentials) {
+	public signUp(authCredentials: Credentials) {
 		this.http.post<AuthTokenDto>(apiConfig.urlSignup, authCredentials).subscribe(
 			// remember that authToken setter will call appropriate subject
 			(dto) => {
@@ -82,7 +75,7 @@ export class AuthService {
 
 	//-----------------------------
 	/** Same as signup, actually */
-	public login(authCredentials: AuthCredentialsDto) {
+	public login(authCredentials: Credentials) {
 		this.http.post<AuthTokenDto>(apiConfig.urlLogin, authCredentials).subscribe(
 			(dto) => {
 				this.authToken = dto.token;
