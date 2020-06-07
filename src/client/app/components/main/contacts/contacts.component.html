@@ -1,1 +1,15 @@
-<p>contacts works!</p>
+<div *ngIf="contactsService.contacts.length > 0; else noContactsFoundBlock">
+
+</div>
+
+<ng-template #noContactsFoundBlock>
+    <div>
+        <div>
+            You don't have any contacts yet. Maybe we should search somebody?
+        </div>
+        <mat-form-field>
+            <mat-label>Search contacts...</mat-label>
+            <input matInput placeholder="login, email or mobile" name="username" #searchInput (keyup)="contactsService.searchContacts(searchInput.value)">
+        </mat-form-field>
+    </div>
+</ng-template>

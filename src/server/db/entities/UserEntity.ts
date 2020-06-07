@@ -9,6 +9,8 @@ export class UserEntity extends User {
 
 	salt: string;
 
+	contacts: User[] = [];
+
 	asPlainUserObject(): object {
 		const { _id, username, email, mobilePhone } = this;
 		const plainUserObject = {

@@ -54,4 +54,20 @@ export class UsersRepository {
 
 		return null;
 	}
+
+	/** Adds contact to specified user and returns array or contacts of the user, or
+	 * -1 if contact already in list, 1 if contact added
+	 */
+	async addContactToUser(user: User, contact: User): Promise<User[]> {
+		const { _id } = user;
+		const foundUser = await this.users.findOne({ _id });
+		if (!foundUser) return null;
+		if (!foundUser.contacts) foundUser.contacts = [];
+		for (var i = 0; i < foundUser.contacts.length; i++) {
+			if (foundUser.contacts[i]._id === contact._id) return [ ...foundUser.contacts ];
+		}
+
+		foundUser.contacts.push(contact);
+		return [ ...foundUser.contacts ];
+	}
 }

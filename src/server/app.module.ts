@@ -7,20 +7,20 @@ import { AppController } from './app.controller';
 import { AppGateway } from './app.gateway';
 import { AuthModule } from './auth/auth.module';
 import { DbModule } from './db/db.module';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
-    imports: [
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'client')
-        }),
-        DbModule,
-        AuthModule,
-    ],
-    controllers: [
-        // AppController
-    ],
-    providers: [
-        AppGateway
-    ]
+	imports: [
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'client')
+		}),
+		DbModule,
+		AuthModule,
+		ContactsModule
+	],
+	controllers: [
+		// AppController
+	],
+	providers: [ AppGateway ]
 })
-export class AppModule { }
+export class AppModule {}
