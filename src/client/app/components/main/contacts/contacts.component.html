@@ -1,15 +1,47 @@
-<div *ngIf="contactsService.contacts.length > 0; else noContactsFoundBlock">
+<div *ngIf="mode === 'list'">
+    <div *ngIf="contactsService.contacts.length === 0">
+        <p>
+            You don't have any contacts yet :(
+        </p>
+        <p>
+            Maybe we should 
+            <button mat-raised-button color="basic" (click)="mode = 'search'">
+                {{ "find someone" | uppercase }}
+            </button>
+            ?
+        </p>
+    </div>
 
+    <div *ngIf="contactsService.contacts.length > 0">
+        <p>Here is the list of your contacts:</p>
+        <ul>
+            <li *ngFor="let user of contactsService.contacts">{{ user.getSomeId() }}</li>
+        </ul>
+    </div>
 </div>
 
-<ng-template #noContactsFoundBlock>
-    <div>
-        <div>
-            You don't have any contacts yet. Maybe we should search somebody?
-        </div>
-        <mat-form-field>
-            <mat-label>Search contacts...</mat-label>
-            <input matInput placeholder="login, email or mobile" name="username" #searchInput (keyup)="contactsService.searchContacts(searchInput.value)">
-        </mat-form-field>
+<div *ngIf="mode === 'search'">
+    <mat-form-field>
+        <mat-label>Search contacts...</mat-label>
+        <input matInput placeholder="login, email or mobile" name="username" #searchInput
+            (keyup)="contactsService.searchContacts(searchInput.value)">
+    </mat-form-field>
+    
+    <div *ngIf="contactsService.searchResult.length > 0">
+        <mat-divider></mat-divider>
+        <mat-list>
+            <mat-list-item *ngFor="let user of contactsService.searchResult">
+                <button mat-icon-button>
+                    <mat-icon>add_box</mat-icon>
+                </button>
+                <span>{{ user.getSomeId() }}</span>
+            </mat-list-item>
+        </mat-list>
     </div>
-</ng-template>
+</div>
+
+
+
+
+
+    

@@ -7,11 +7,13 @@ import { ContactsService } from '../../../services/contacts/contacts.service';
 	styleUrls: [ './contacts.component.css' ]
 })
 export class ContactsComponent implements OnInit {
-	searchInput: string = '';
+	public mode: 'list' | 'search';
 
 	constructor(public contactsService: ContactsService) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.mode = 'list';
+	}
 
 	doSearch() {}
 }

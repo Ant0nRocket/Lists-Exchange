@@ -31,12 +31,7 @@ export class WelcomeComponent implements OnInit {
 		});
 	}
 
-	ngOnInit(): void {
-		if (this.authService.authToken) {
-			this.webSockets.connect();
-			setTimeout(() => (this.webSocketConnectInProgress = false), 3000);
-		}
-	}
+	ngOnInit(): void {}
 
 	testWebSockets() {
 		const dto: WebSocketsDto = {

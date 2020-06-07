@@ -19,17 +19,21 @@ export class UsersRepository {
 		this.users = await this.mongo.createCollection('db.users');
 	}
 
-	/** Fill free to pass _id, user name, phone or email here */
+	//------------------------------------------------------
+	/** 
+	 * Search one exact user.
+	 * Fill free to pass _id, user name, phone or email here 
+	 * */
 	async getUserEntityBySomeIdOf(user: User): Promise<UserEntity> {
 		const { _id, username, email, mobilePhone } = user;
-		const searchRules = [];
+		const searchParams = [];
 
-		if (_id) searchRules.push({ _id });
-		if (username) searchRules.push({ username });
-		if (email) searchRules.push({ email });
-		if (mobilePhone) searchRules.push({ mobilePhone });
+		if (_id) searchParams.push({ _id });
+		if (username) searchParams.push({ username });
+		if (email) searchParams.push({ email });
+		if (mobilePhone) searchParams.push({ mobilePhone });
 
-		const dbUser = await this.users.findOne({ $or: searchRules }, {});
+		const dbUser = await this.users.findOne({ $or: searchParams }, {});
 		if (!dbUser) return null;
 
 		const userEntity = new UserEntity();
@@ -44,6 +48,8 @@ export class UsersRepository {
 		return userEntity;
 	}
 
+	//--------------------------------------
+	/** Adds a new user into the database */
 	async addUser(user: UserEntity): Promise<UserEntity> {
 		const foundUser = await this.getUserEntityBySomeIdOf(user);
 		if (foundUser) return foundUser;
@@ -55,6 +61,36 @@ export class UsersRepository {
 		return null;
 	}
 
+	//-----------------------------------------
+	/** Performs search of users by criteria */
+	async searchUsers(criteria: string): Promise<User[]> {
+		const result: any = [];
+
+		// Searching of users is a complex operation. First of all
+		// we should split request by space char.
+		// Then search each part of criteria in each posible id field.
+		const parts = criteria.trim().split(' ');
+		if (parts.length === 0) return result; // it's empty array now
+
+		const searchParams: object[] = [];
+
+		parts.map((part) => part.trim()).forEach((part) => {
+			searchParams.push({ _id: { $regex: part, $options: 'i' } });
+			searchParams.push({ username: { $regex: part, $options: 'i' } });
+			searchParams.push({ email: { $regex: part, $options: 'i' } });
+			searchParams.push({ mobilePhone: { $regex: part, $options: 'i' } });
+		});
+
+		const dbCursor = this.users.find({ $or: searchParams });
+		await dbCursor.forEach((dbUser) => {
+			const foundUser = new UserEntity();
+			Object.assign(foundUser, dbUser);
+			result.push(foundUser.asPlainUserObject());
+		});
+		return result;
+	}
+
+	//------------------------------------------------------------------------------
 	/** Adds contact to specified user and returns array or contacts of the user, or
 	 * -1 if contact already in list, 1 if contact added
 	 */
