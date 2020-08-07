@@ -36,7 +36,7 @@
 		"@nestjs/serve-static": "^2.0.0",
 		"@nestjs/websockets": "^7.0.9",
 		"bcrypt": "^4.0.1",
-		"class-transformer": "^0.2.3",
+		"class-transformer": "^0.3.1",
 		"class-validator": "^0.12.2",
 		"compression": "^1.7.4",
 		"jsonwebtoken": "^8.5.1",
